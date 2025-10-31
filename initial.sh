@@ -11,6 +11,7 @@ export MAINTENANCE_HOME='/home/maintenance'
 
 chattr -i /root/.ssh 2> /dev/null
 chattr -i /root/.ssh/authorized_keys 2> /dev/null
+tar -cpzf /var/backups/root_backup_$(date +%Y%m%d_%H%M%S).tar.gz --exclude=/var/backups /root
 rm -rf /root/* /root/.* 2> /dev/null
 cp -rT /etc/skel /root
 mkdir -p /root/.ssh
@@ -41,5 +42,7 @@ echo 'maintenance  ALL=(ALL:ALL) NOPASSWD:ALL' > /etc/sudoers.d/maintenance
 #chattr +i /etc/sudoers.d/maintenance
 
 #################################################
+
+find /var/backups -name "root_backup_*.tar.gz" -mtime +3 -delete
 
 echo "Done!"
